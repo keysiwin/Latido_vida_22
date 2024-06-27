@@ -7,6 +7,7 @@
     <title>Laravel</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body>
     <div id="app">
         <persons-table></persons-table>
