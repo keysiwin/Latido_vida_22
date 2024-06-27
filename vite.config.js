@@ -14,7 +14,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
-            'vue': 'vue/dist/vue.esm-bundler.js',  // Alias para usar el compilador adecuado
+            'vue': 'vue/dist/vue.esm-bundler.js',
         },
     },
     build: {
@@ -27,5 +27,6 @@ export default defineConfig({
         },
     },
 });
+
 
 
