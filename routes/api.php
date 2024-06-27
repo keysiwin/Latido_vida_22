@@ -29,6 +29,7 @@ Route::delete('/persons/{id}', [PersonController::class, 'destroy']);
 
 // Rutas para locations
 Route::post('/persons/{personId}/locations', [LocationController::class, 'store']);
+Route::get('/persons/{person}/locations', [LocationController::class, 'storeLocation']); // Añadir esta línea
 Route::put('/persons/{personId}/locations/{locationId}', [LocationController::class, 'update']);
 Route::delete('/persons/{personId}/locations/{locationId}', [LocationController::class, 'destroy']);
 

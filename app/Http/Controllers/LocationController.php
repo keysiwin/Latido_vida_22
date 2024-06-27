@@ -11,6 +11,28 @@ class LocationController extends Controller
     /**
      * Store a newly created location in storage.
      */
+
+     public function storeLocation(Request $request, $person_id)
+     {
+         $validatedData = $request->validate([
+             'latitud' => 'required|numeric',
+             'longitud' => 'required|numeric',
+         ]);
+     
+         $person = Person::findOrFail($person_id);
+     
+         $location = new Location();
+         $location->person_id = $person->id;
+         $location->latitud = $validatedData['latitud'];
+         $location->longitud = $validatedData['longitud'];
+         $location->save();
+     
+         return response()->json([
+             'message' => 'Location added successfully',
+             'location' => $location,
+         ], 201);
+     }
+
     public function store(Request $request, $personId)
     {
         $person = Person::findOrFail($personId);
