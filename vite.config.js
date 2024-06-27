@@ -11,11 +11,19 @@ export default defineConfig({
         }),
         vue(),
     ],
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './resources/js'),
+        },
+    },
     build: {
         outDir: 'public/build',
         manifest: true,
         rollupOptions: {
-            input: 'resources/js/app.js',
-        },
-    },
+            input: {
+                app: 'resources/js/app.js'
+            }
+        }
+    }
 });
+
