@@ -11,18 +11,11 @@ export default defineConfig({
         }),
         vue(),
     ],
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './resources/js'),
-            'vue': 'vue/dist/vue.esm-bundler.js'  // Alias para usar el compilador adecuado
-        },
-    },
-    server: {
-        host: 'localhost',
-        port: 5173,
-        hmr: {
-            host: 'localhost',
-            protocol: 'ws',
+    build: {
+        outDir: 'public/build',
+        manifest: true,
+        rollupOptions: {
+            input: 'resources/js/app.js',
         },
     },
 });
