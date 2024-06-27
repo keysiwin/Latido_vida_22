@@ -1,41 +1,25 @@
-# Use the official PHP image as the base image
-FROM php:8.1-fpm
+# Etapa de construcción
+FROM node:14 AS build
 
-# Set working directory
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci --production
+
+COPY . .
+RUN npm run build
+
+# Etapa de producción
+FROM php:8.0-apache
+
 WORKDIR /var/www/html
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    npm
-
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Copy existing application directory contents
+COPY --from=build /app/public/build /var/www/html/public/build
 COPY . .
 
-# Install dependencies
-RUN composer install --optimize-autoloader --no-dev
-
-# Build assets with Vite
-RUN npm install && npm run build
-
-# Set permissions for Laravel
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
+RUN composer install --no-dev --optimize-autoloader
+RUN php artisan optimize
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
+RUN php artisan migrate --force
