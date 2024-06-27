@@ -9,4 +9,3 @@ const app = createApp({});
 app.component('persons-table', PersonsTable);
 app.mount('#app');
 
-

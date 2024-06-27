@@ -14,6 +14,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
+            'vue': 'vue/dist/vue.esm-bundler.js',  // Alias para usar el compilador adecuado
         },
     },
     build: {
@@ -21,9 +22,10 @@ export default defineConfig({
         manifest: true,
         rollupOptions: {
             input: {
-                app: 'resources/js/app.js'
-            }
-        }
-    }
+                app: 'resources/js/app.js',
+            },
+        },
+    },
 });
+
 
